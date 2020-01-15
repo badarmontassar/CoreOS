@@ -1,0 +1,5 @@
+{
+  "iso_url": "http://XXXXXX/rhcos-4.1.0-x86_64-installer.iso",
+  "iso_checksum": "92fdbc5c95410fea73c6b200f6a10d4a8e043dd6933628237a5aed093f88701b",
+  "release": "alpha"
+}
