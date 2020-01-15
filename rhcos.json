@@ -1,0 +1,39 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "guest_os_type": "Linux_64",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "sha256",
+      "memory": 2048,
+      "ssh_username": "vagrant",
+      "ssh_private_key_file": "id_rsa",
+      "shutdown_command": "sudo /sbin/shutdown -P -h now",
+      "boot_command": [
+       "<tab> coreos.inst=yes coreos.inst.install_dev=sda coreos.inst.ignition_url=http://10.188.30.142/file/SYSinstall/eclair/install/coreos/ignition.json coreos.inst.image_url=http://10.188.30.142/file/SYSinstall/eclair/install/coreos/rhcos-4.1.0-x86_64-metal-bios.raw.gz <wait 5><enter>"
+      ],
+      "boot_wait": "45s"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "setup-kubeadm.sh",
+      "destination": "/tmp/setup-kubeadm.sh"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo sh /tmp/setup-kubeadm.sh"
+      ]
+    }
+  ],
+ "post-processors": [
+     {
+      "type": "vagrant",
+      "output": "coreos-{{user `release`}}.box",
+      "compression_level": 9
+     }
+ ]
+}
